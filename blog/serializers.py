@@ -1,18 +1,21 @@
 from rest_framework import serializers
 
-from blog.models import Post, Category
+from blog.models import Car, Client, Sharing
 
 
-class CategorySerializer(serializers.ModelSerializer):
+class CarSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Category
-        fields = ['id', 'name']
+        model = Car
+        fields = ['type', 'model', 'color', 'mileage']
 
 
-class PostSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(many=False, read_only=True)
-
+class ClientSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Post
-        fields = ['id', 'title', 'content', 'created_at', 'updated_at', 'category']
+        model = Client
+        fields = ['initials', 'balance']
 
+
+class SharingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sharing
+        fields = ['client', 'car', 'date_of_issue', 'date_of_return', 'cost_per_day', 'number_of_days', 'final_payment']

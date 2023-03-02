@@ -1,26 +1,29 @@
+import datetime
+
 from django.db import models
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name_plural = 'Categories'
-
-    def __str__(self):
-        return self.name
+class Client(models.Model):
+    initials = models.CharField(max_length=50)
+    balance = models.IntegerField()
 
 
-class Post(models.Model):
-    title = models.CharField(max_length=50)
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+class Car(models.Model):
+    type = models.CharField(max_length=50)
+    model = models.CharField(max_length=50)
+    color = models.CharField(max_length=50)
+    mileage = models.IntegerField()
+    is_rented = models.BooleanField(default=False)
 
-    class Meta:
-        verbose_name_plural = 'Posts'
 
-    def __str__(self):
-        return self.title
+class Sharing(models.Model):
+    client = models.ManyToManyField(Client)
+    car = models.ManyToManyField(Car)
+    date_of_issue = models.DateTimeField(auto_now_add=True)
+    date_of_return = models.DateTimeField()
+    cost_per_day = models.IntegerField(default=100)
+    number_of_days = models.IntegerField()
+    final_payment = models.IntegerField(auto_created=True)
 
+    def final_check(self):
+        return self.number_of_days * self.cost_per_day

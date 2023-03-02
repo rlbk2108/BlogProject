@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Post, Category
 
-admin.site.register(Post)
-admin.site.register(Category)
+from blog.models import Sharing, Car, Client
+
+admin.site.register(Car)
+admin.site.register(Client)
+admin.site.register(Sharing)
